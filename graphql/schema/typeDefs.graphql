@@ -1,0 +1,577 @@
+scalar DateTime
+scalar JSON
+
+enum Role {
+	ADMIN
+	STAFF
+	STUDENT
+	TEACHER
+}
+
+enum MarkingType {
+	GRADE
+	NUMBER
+}
+
+enum ClassHourType {
+	TEACHING
+	BREAK
+}
+
+enum StudentAttendanceStatus {
+	ABSENT
+	PRESENT
+}
+
+type School {
+	_id: ID!
+	logo: String
+	name: String!
+	streetAddress: String!
+	telephoneNumber: String!
+	emailAddress: String
+	website: String
+	markingSystem: MarkingType!
+}
+
+input SchoolInput {
+	logo: Upload
+	name: String!
+	streetAddress: String!
+	telephoneNumber: String!
+	emailAddress: String
+	website: String
+	markingSystem: MarkingType!
+}
+
+type ClassHour {
+	_id: ID!
+	hourName: String!
+	beginTime: String!
+	endTime: String!
+	type: ClassHourType!
+}
+
+input ClassHourInput {
+	hourName: String!
+	beginTime: String!
+	endTime: String!
+	type: ClassHourType!
+}
+
+type SchoolTerm {
+	_id: ID!
+	termName: String!
+	beginDate: DateTime!
+	endDate: DateTime!
+}
+
+input SchoolTermInput {
+	termName: String!
+	beginDate: DateTime!
+	endDate: DateTime!
+}
+
+type User {
+	_id: ID
+	username: String!
+	defaultPassword: String
+	role: Role!
+}
+
+input UserInput {
+	username: String!
+	password: String!
+	role: Role!
+}
+
+type Staff {
+	_id: ID!
+	staffID: String!
+	firstName: String!
+	lastName: String!
+	gender: String!
+	dob: DateTime!
+	username: String!
+	streetAddress: String!
+	city: String!
+	zipCode: String
+	telephoneNumber: String!
+	emailAddress: String!
+	profilePic: String
+	systemLogin: User
+}
+
+input StaffInput {
+	firstName: String!
+	lastName: String!
+	gender: String!
+	dob: DateTime!
+	streetAddress: String!
+	city: String!
+	zipCode: String
+	telephoneNumber: String!
+	emailAddress: String!
+	profilePic: Upload
+}
+
+# type Staff {
+# 	_id: ID!
+# 	firstName: String!
+# 	lastName: String!
+# 	gender: String!
+# 	dob: DateTime!
+# 	avatar: String
+# 	systemLogin: User
+# }
+
+# input StaffInput {
+# 	firstName: String!
+# 	lastName: String!
+# 	gender: String!
+# 	dob: DateTime!
+# 	avatarURL: String
+# }
+
+type Student {
+	_id: ID!
+	studentID: String!
+	firstName: String!
+	lastName: String!
+	gender: String!
+	dob: DateTime!
+	classDetails: GradeClass
+	classID: String!
+	username: String!
+	streetAddress: String!
+	city: String!
+	zipCode: String!
+	telephoneNumber: String!
+	emailAddress: String!
+	profilePic: String
+	guardianDetails: [Guardian!]!
+	enrollmentDate: DateTime
+}
+
+input StudentInput {
+	firstName: String!
+	lastName: String!
+	gender: String!
+	dob: DateTime!
+	# grade: String!
+	classID: String!
+	streetAddress: String!
+	city: String!
+	zipCode: String!
+	telephoneNumber: String!
+	emailAddress: String!
+	profilePic: Upload
+	enrollmentDate: DateTime!
+}
+
+type Guardian {
+	_id: ID!
+	firstName: String!
+	lastName: String!
+	relationship: String!
+	mobilePhone: String!
+	workPhone: String!
+	emailAddress: String!
+	studentID: String!
+}
+
+input GuardianInput {
+	guardianFirstName: String!
+	guardianLastName: String!
+	guardianRelationship: String!
+	guardianMobilePhone: String!
+	guardianWorkPhone: String!
+	guardianEmailAddress: String!
+}
+
+type Teacher {
+	_id: ID!
+	teacherID: String!
+	firstName: String!
+	lastName: String!
+	gender: String!
+	dob: DateTime!
+	username: String!
+	streetAddress: String!
+	city: String!
+	zipCode: String!
+	telephoneNumber: String!
+	emailAddress: String!
+	profilePic: String
+	subjectTaught: [Subject]
+	classAssigned: [GradeClass]
+	enrollmentDate: DateTime
+}
+
+input TeacherInput {
+	firstName: String!
+	lastName: String!
+	gender: String!
+	dob: DateTime!
+	streetAddress: String!
+	city: String!
+	zipCode: String!
+	telephoneNumber: String!
+	emailAddress: String!
+	profilePic: Upload
+	enrollmentDate: DateTime
+}
+
+type GradeClass {
+	_id: ID!
+	classID: String!
+	className: String!
+	grade: String!
+	capacity: Int!
+	teacherID: String
+	formTeacher: Teacher
+	numberOfStudents: Int!
+}
+
+input GradeClassInput {
+	className: String!
+	grade: String!
+	capacity: Int!
+	teacherID: String
+}
+
+type Subject {
+	_id: ID!
+	subjectID: String!
+	subjectName: String!
+	teacherID: [String]
+	# teachedBy: [Teacher]
+}
+
+input SubjectInput {
+	subjectName: String!
+	teacherID: [String]
+}
+
+type StudentStatus {
+	studentID: String
+	status: String
+}
+
+input StudentStatusInput {
+	studentID: String
+	status: String
+}
+
+type StudentAttendance {
+	_id: ID!
+	dateOfAttendance: DateTime!
+	attendance: [StudentStatus!]!
+}
+
+type StudentAttendanceMultiple {
+	dateOfAttendance: DateTime
+	attendance: StudentStatus
+}
+
+input StudentAttendanceInput {
+	dateOfAttendance: DateTime!
+	attendance: [StudentStatusInput!]!
+}
+
+type TeacherStatus {
+	teacherID: String
+	status: String
+}
+
+input TeacherStatusInput {
+	teacherID: String
+	status: String
+}
+
+type TeacherAttendance {
+	_id: ID!
+	dateOfAttendance: DateTime!
+	attendance: [TeacherStatus!]!
+}
+
+type TeacherAttendanceMultiple {
+	dateOfAttendance: DateTime
+	attendance: TeacherStatus
+}
+
+input TeacherAttendanceInput {
+	dateOfAttendance: DateTime!
+	attendance: [TeacherStatusInput!]!
+}
+
+type Assessment {
+	_id: ID!
+	assessmentID: ID!
+	assessmentDate: DateTime!
+	period: String!
+	subject: String!
+	gradeClass: String!
+	markings: Int
+	term: String
+}
+
+input AssessmentInput {
+	assessmentDate: DateTime!
+	period: String!
+	subject: String!
+	gradeClass: String!
+	markings: Int!
+	term: String!
+}
+
+type Exam {
+	_id: ID!
+	examID: ID!
+	examDate: DateTime!
+	startTime: String!
+	duration: Int!
+	subject: String!
+	gradeClass: String!
+	markings: Int
+	term: String
+}
+
+input ExamInput {
+	examDate: DateTime!
+	startTime: String!
+	duration: Int!
+	subject: String!
+	gradeClass: String!
+	markings: Int!
+	term: String!
+}
+
+type StudentMarks {
+	studentID: String!
+	markings: Int!
+}
+
+input StudentMarksInput {
+	studentID: String!
+	markings: Int
+}
+
+type AssessmentMark {
+	_id: ID!
+	assessmentID: ID!
+	studentMarks: [StudentMarks!]!
+}
+
+input AssessmentMarkInput {
+	assessmentID: ID!
+	studentMarks: [StudentMarksInput!]!
+}
+
+type ExamMark {
+	_id: ID!
+	examID: ID!
+	studentMarks: [StudentMarks!]!
+}
+
+input ExamMarkInput {
+	examID: ID!
+	studentMarks: [StudentMarksInput!]!
+}
+
+type Timetable {
+	_id: ID!
+	classID: ID!
+	slots: [DaySubject!]!
+}
+
+input TimetableInput {
+	classID: ID!
+	slots: [DaySubjectInput!]!
+}
+
+type DaySubject {
+	slotTag: String!
+	subjectID: String!
+}
+
+input DaySubjectInput {
+	slotTag: String!
+	subjectID: String!
+}
+
+type Query {
+	schoolInfo: School!
+	allUsers: [User!]!
+	allStaffs: [Staff!]!
+	allStudents: [Student!]!
+	allTeachers: [Teacher!]!
+	allGuardianDetails: [Guardian]!
+	allSchoolTerms: [SchoolTerm!]!
+	allClassHours: [ClassHour!]!
+	allClasses: [GradeClass!]!
+	allSubjects: [Subject!]!
+	attendanceInfo: [StudentAttendance!]!
+	allAssessments: [Assessment]
+	allExams: [Exam]
+	allAssessmentsMarks: [AssessmentMark]
+	allExamsMarks: [ExamMark]
+	totalStudents: Int!
+	totalTeachers: Int!
+	login(username: String!, password: String!): User!
+	findStaffFromUsername(username: String!): Staff!
+	staffFromId(_id: ID!): Staff!
+	teacherFromId(_id: ID!): Teacher!
+	studentFromId(_id: ID!): Student!
+	studentFromClassID(classID: String!): [Student]
+	assessmentFromId(_id: ID!): Assessment!
+	markingsFromAssessmentID(assessmentID: ID!): AssessmentMark
+	examFromId(_id: ID!): Exam!
+	markingsFromExamID(examID: ID!): ExamMark
+	classFromId(_id: ID!): GradeClass!
+	studentGuardianDetails(studentID: String!): Guardian
+	studentAttendanceFromDate(date: String!): StudentAttendance
+	studentAttendance5days(
+		date: String!
+		studentID: String!
+	): [StudentAttendanceMultiple]
+	teacherAttendanceFromDate(date: String!): TeacherAttendance
+	teacherAttendance5days(
+		date: String!
+		teacherID: String!
+	): [TeacherAttendanceMultiple]
+	timetableFromClassID(classID: String!): Timetable
+	totalStudentAttendanceRecordedOnDate(date: String!): Int
+	totalStudentPresentOnDate(date: String!): Int
+	totalTeacherAttendanceRecordedOnDate(date: String!): Int
+	totalTeacherPresentOnDate(date: String!): Int
+	getSubjectFromID(_id: ID): Subject
+}
+
+type Mutation {
+	createSchool(schoolInput: SchoolInput): School!
+	createUser(userInput: UserInput): User!
+	createStaff(staffInput: StaffInput): Staff!
+	# createStudent(studentInput: StudentInput): Student!
+	createGuardian(guardianInput: GuardianInput): Guardian!
+	createTeacher(teacherInput: TeacherInput): Teacher!
+	createSchoolTerm(schoolTermInput: SchoolTermInput): SchoolTerm!
+	createClassHour(classHourInput: ClassHourInput): ClassHour!
+	createSubject(subjectInput: SubjectInput): Subject!
+	registerStudent(
+		studentInput: StudentInput
+		guardianInput: GuardianInput
+	): Student!
+	createGradeClass(gradeClassInput: GradeClassInput): GradeClass!
+	registerStudentAttendance(
+		studentAttendanceInput: StudentAttendanceInput
+	): StudentAttendance!
+	registerTeacherAttendance(
+		teacherAttendanceInput: TeacherAttendanceInput
+	): TeacherAttendance!
+	registerAssessment(assessmentInput: AssessmentInput): Assessment
+	registerExam(examInput: ExamInput): Exam
+	registerAssessmentMark(
+		assessmentMarkInput: AssessmentMarkInput
+	): AssessmentMark
+	registerExamMark(examMarkInput: ExamMarkInput): ExamMark
+	registerTimetable(timetableInput: TimetableInput): Timetable
+	updateSchoolInfo(
+		_id: ID
+		name: String
+		streetAddress: String
+		telephoneNumber: String
+		emailAddress: String
+		website: String
+		markingSystem: MarkingType
+	): School
+	updateSchoolLogo(_id: ID, photoID: String, logo: Upload): School
+	updateStudentPersoInfo(
+		_id: ID
+		firstName: String
+		lastName: String
+		gender: String
+		dob: String
+		streetAddress: String
+		city: String
+		zipCode: String
+		telephoneNumber: String
+		emailAddress: String
+	): Student
+	updateStudentProfilePic(_id: ID, photoID: String, profilePic: Upload): Student
+	updateStudentClassInfo(_id: ID, classID: String): Student
+	updateStudentGuardianInfo(
+		_id: ID
+		firstName: String
+		lastName: String
+		relationship: String
+		mobilePhone: String
+		workPhone: String
+		emailAddress: String
+	): Guardian
+	updateTeacherPersoInfo(
+		_id: ID
+		firstName: String
+		lastName: String
+		gender: String
+		dob: String
+		streetAddress: String
+		city: String
+		zipCode: String
+		telephoneNumber: String
+		emailAddress: String
+	): Teacher
+	updateTeacherProfilePic(_id: ID, photoID: String, profilePic: Upload): Student
+	updateAssessment(
+		_id: ID
+		assessmentDate: DateTime
+		period: String
+		subject: String
+		gradeClass: String
+		markings: Int
+		term: String
+	): Assessment
+	updateExam(
+		_id: ID
+		examDate: DateTime
+		startTime: String
+		duration: Int
+		subject: String
+		gradeClass: String
+		markings: Int
+		term: String
+	): Exam
+	updateClass(
+		_id: ID
+		className: String
+		grade: String
+		capacity: Int
+		teacherID: String
+	): GradeClass
+	updateSubject(_id: ID, subjectName: String, teacherID: [String]): Subject!
+	updateStaffPersoInfo(
+		_id: ID
+		firstName: String
+		lastName: String
+		gender: String
+		dob: String
+		streetAddress: String
+		city: String
+		zipCode: String
+		telephoneNumber: String
+		emailAddress: String
+	): Staff
+	updateStaffProfilePic(_id: ID, photoID: String, profilePic: Upload): Staff
+	updateUserPassword(
+		username: String
+		oldPassword: String
+		newPassword: String
+	): User
+	deleteSchoolTerm(_id: ID): SchoolTerm
+	deleteClassHour(_id: ID): ClassHour
+	deleteGradeClass(_id: ID): GradeClass
+	deleteAssessment(_id: ID): Assessment
+	deleteExam(_id: ID): Exam
+	deleteSubject(_id: ID): Subject
+	deleteStaff(username: String): String
+}

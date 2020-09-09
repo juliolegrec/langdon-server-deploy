@@ -1,0 +1,32 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon --exec babel-node index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Julio Legrec",
+	"license": "MIT",
+	"devDependencies": {
+		"@babel/cli": "^7.8.4",
+		"@babel/core": "^7.9.6",
+		"@babel/node": "^7.8.7",
+		"@babel/preset-env": "^7.9.6",
+		"nodemon": "^2.0.3"
+	},
+	"dependencies": {
+		"apollo-server-express": "^2.16.1",
+		"bcryptjs": "^2.4.3",
+		"cloudinary": "^1.21.0",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"generate-password": "^1.5.1",
+		"graphql-type-json": "^0.3.1",
+		"moment": "^2.27.0",
+		"mongoose": "^5.9.10",
+		"node-fetch": "^2.6.0",
+		"short-unique-id": "^3.0.4"
+	}
+}
