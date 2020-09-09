@@ -14,7 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 require('dotenv').config();
 
-var typeDefs = (0, _fs.readFileSync)('./graphql/schema/typeDefs.graphql', 'UTF-8');
+var typeDefs = (0, _fs.readFileSync)(__dirname + '/graphql/schema/typeDefs.graphql', 'UTF-8');
 var server = new _apolloServerExpress.ApolloServer({
   typeDefs,
   resolvers: _resolvers.default

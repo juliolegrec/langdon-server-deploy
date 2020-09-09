@@ -4,7 +4,10 @@ import { ApolloServer } from 'apollo-server-express';
 import { readFileSync } from 'fs';
 require('dotenv').config();
 
-const typeDefs = readFileSync('./graphql/schema/typeDefs.graphql', 'UTF-8');
+const typeDefs = readFileSync(
+	__dirname + '/graphql/schema/typeDefs.graphql',
+	'UTF-8'
+);
 import resolvers from './graphql/resolvers';
 
 const server = new ApolloServer({
