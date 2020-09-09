@@ -5,19 +5,20 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
+		"build": "babel src -d build",
 		"start": "babel-node index",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "Julio Legrec",
 	"license": "MIT",
 	"devDependencies": {
-		"nodemon": "^2.0.3"
-	},
-	"dependencies": {
 		"@babel/cli": "^7.8.4",
 		"@babel/core": "^7.9.6",
 		"@babel/node": "^7.8.7",
 		"@babel/preset-env": "^7.9.6",
+		"nodemon": "^2.0.3"
+	},
+	"dependencies": {
 		"apollo-server-express": "^2.16.1",
 		"bcryptjs": "^2.4.3",
 		"cloudinary": "^1.21.0",
