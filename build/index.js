@@ -23,7 +23,6 @@ var typeDefs = (0, _fs.readFileSync)(
 var server = new _apolloServerExpress.ApolloServer({
 	typeDefs,
 	resolvers: _resolvers.default,
-	introspection: true,
 	playground: true,
 });
 var app = (0, _express.default)();
