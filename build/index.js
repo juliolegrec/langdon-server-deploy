@@ -17,7 +17,8 @@ require('dotenv').config();
 var typeDefs = (0, _fs.readFileSync)(__dirname + '/graphql/schema/typeDefs.graphql', 'UTF-8');
 var server = new _apolloServerExpress.ApolloServer({
   typeDefs,
-  resolvers: _resolvers.default
+  resolvers: _resolvers.default,
+  playground: true
 });
 var app = (0, _express.default)();
 server.applyMiddleware({
